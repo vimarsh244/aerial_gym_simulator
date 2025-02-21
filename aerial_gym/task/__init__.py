@@ -33,6 +33,8 @@ from aerial_gym.registry.task_registry import task_registry
 task_registry.register_task(
     "position_setpoint_task", PositionSetpointTask, position_setpoint_task_config
 )
+
+
 task_registry.register_task(
     "position_setpoint_task_sim2real",
     PositionSetpointTaskSim2Real,

@@ -16,6 +16,10 @@ from aerial_gym.control.controllers.no_control import NoControl
 from aerial_gym.config.controller_config.lee_controller_config import (
     control as lee_controller_config,
 )
+from aerial_gym.config.controller_config.hexa_controller_config import (
+    control as hexa_controller_config,
+)
+
 from aerial_gym.config.controller_config.no_control_config import (
     control as no_control_config,
 )
@@ -70,6 +74,9 @@ controller_registry.register_controller(
     "lee_rates_control_octarotor", LeeRatesController, lee_controller_config_octarotor
 )
 
+# controller_registry.register_controller(
+#     "hexa_position_control", LeePositionController, hexa_controller_config
+# )
 
 controller_registry.register_controller(
     "lee_velocity_steering_angle_control",

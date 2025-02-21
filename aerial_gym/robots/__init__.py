@@ -21,6 +21,7 @@ from aerial_gym.robots.base_multirotor import BaseMultirotor
 from aerial_gym.robots.base_rov import BaseROV
 from aerial_gym.robots.base_reconfigurable import BaseReconfigurable
 from aerial_gym.robots.morphy import Morphy
+from aerial_gym.robots.base_multirotor_wing import BaseMultirotorFW
 
 # from aerial_gym.robots.base_
 
@@ -33,9 +34,7 @@ from aerial_gym.config.robot_config.base_quad_config import BaseQuadWithCameraIm
 from aerial_gym.config.robot_config.base_quad_config import BaseQuadWithLidarCfg
 from aerial_gym.config.robot_config.base_quad_config import BaseQuadWithFaceIDNormalCameraCfg
 
-from aerial_gym.config.robot_config.base_hexa_config import BaseHexaWithImuCfg
 from aerial_gym.config.robot_config.base_hexa_config import BaseHexaCfg
-from aerial_gym.config.robot_config.base_hexa_config import BaseHexaWithCameraCfg
 
 
 
@@ -48,7 +47,8 @@ robot_registry.register("base_quad_root_link_control", BaseMultirotor, BaseQuadR
 robot_registry.register("morphy_stiff", BaseMultirotor, MorphyStiffCfg)
 robot_registry.register("morphy", Morphy, MorphyCfg)
 
-robot_registry.register("base_hexarotor", BaseReconfigurable, BaseHexaCfg)
+robot_registry.register("base_hexarotor", BaseMultirotor, BaseHexaCfg)
+robot_registry.register("base_hexa_wing", BaseMultirotorFW, BaseHexaCfg)
 
 robot_registry.register("snakey", BaseReconfigurable, SnakeyCfg)
 robot_registry.register("snakey5", BaseReconfigurable, Snakey5Cfg)

@@ -9,3 +9,5 @@ runs/
 nn/
 
 train_dir/
+
+foil_modeling/AeroSandbox/

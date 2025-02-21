@@ -12,8 +12,10 @@ from aerial_gym.utils.logging import CustomLogger
 
 logger = CustomLogger("base_multirotor")
 
+from aerial_gym.utils.get_eqn import get_eqn
 
-class BaseMultirotor(BaseRobot):
+
+class BaseMultirotorFW(BaseRobot):
     """
     Base class for the quadrotor robot. Does not contain sensors or actuators.
     This class should be inherited by the specific quadrotor class with sensors or actuators.
@@ -54,6 +56,17 @@ class BaseMultirotor(BaseRobot):
         self.control_allocator = None
         self.output_forces = None
         self.output_torques = None
+
+        self.wing_type = "PW75"
+
+        self.no_deg = 2
+        self.get_eqn = get_eqn(self.wing_type, self.no_deg)
+        self.fx_eqn = self.get_eqn[0]
+        self.fy_eqn = self.get_eqn[1]
+        self.fz_eqn = self.get_eqn[2]
+        self.lift_eqn = self.get_eqn[3]
+        self.drag_eqn = self.get_eqn[4]
+        
 
         logger.debug("[DONE] Initializing BaseQuadrotor")
 
@@ -260,6 +273,7 @@ class BaseMultirotor(BaseRobot):
     def simulate_drag(self):
         self.robot_body_vel_drag_linear = (
             -self.body_vel_linear_damping_coefficient * self.robot_body_linvel
+
             #linvel is body_frame
         )
         self.robot_body_vel_drag_quadratic = (
@@ -270,7 +284,40 @@ class BaseMultirotor(BaseRobot):
         self.robot_body_vel_drag = (
             self.robot_body_vel_drag_linear + self.robot_body_vel_drag_quadratic
         )
+
+
         self.robot_force_tensors[:, 0, 0:3] += self.robot_body_vel_drag
+
+        # TODO: verify that the robot_body_linvel is in the x,y,z order and x being the direction of the propellor of hexarotor
+        # Adding forces
+
+        body_vel_cpu = self.robot_body_linvel.cpu()
+        # print(body_vel_cpu)
+        #calculate drag forces from self.drag_eqn based on self.robot_body_linvel and use self.no_deg cause that retursnt the coefficients into self.drag_eqn
+        drag_force = torch.zeros_like(self.robot_body_linvel)
+        # drag_force = 0
+        # print(self.robot_body_linvel.shape)
+        # print(self.robot_body_linvel)
+        for env_idx in range(self.num_envs):
+            drag_force[env_idx, 1] += self.drag_eqn(body_vel_cpu[env_idx, 1])
+        self.robot_force_tensors[:, 0, 0:3] += drag_force.cuda()
+
+        #calculate lift forces from self.lift_eqn based on self.robot_body_linvel and use self.no_deg cause that retursnt the coefficients into self.lift_eqn
+        lift_force = torch.zeros_like(self.robot_body_linvel)
+        for env_idx in range(self.num_envs):
+            lift_force[env_idx, 1] += self.lift_eqn(body_vel_cpu[env_idx, 1])
+        # print(lift_force + drag_force.cpu())
+        self.robot_force_tensors[:, 0, 0:3] += lift_force.cuda()
+
+
+        f_total = torch.zeros_like(body_vel_cpu)
+        for env_idx in range(self.num_envs):
+            f_total[env_idx, 0] += self.fx_eqn(body_vel_cpu[env_idx, 0])
+            f_total[env_idx, 1] += self.fy_eqn(body_vel_cpu[env_idx, 1])
+            f_total[env_idx, 2] += self.fz_eqn(body_vel_cpu[env_idx, 2])
+        # print(f_total)
+        # self.robot_force_tensors[:, 0, 0:3] += f_total.cuda()
+
 
         self.robot_body_angvel_drag_linear = (
             -self.angvel_linear_damping_coefficient * self.robot_body_angvel
@@ -284,6 +331,8 @@ class BaseMultirotor(BaseRobot):
             self.robot_body_angvel_drag_linear + self.robot_body_angvel_drag_quadratic
         )
         self.robot_torque_tensors[:, 0, 0:3] += self.robot_body_angvel_drag
+    
+        
 
     def update_states(self):
         self.robot_euler_angles[:] = ssa(get_euler_xyz_tensor(self.robot_orientation))

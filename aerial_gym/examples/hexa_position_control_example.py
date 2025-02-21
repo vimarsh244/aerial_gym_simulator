@@ -7,11 +7,11 @@ from aerial_gym.utils.helpers import get_args
 
 if __name__ == "__main__":
     args = get_args()
-    logger.warning("This example demonstrates the use of geometric controllers for a quadrotor.")
+    logger.warning("This example demonstrates the use of geometric controllers for a hexa (4+2) rotor.")
     env_manager = SimBuilder().build_env(
         sim_name="base_sim",
         env_name="empty_env",
-        robot_name="base_hexa_wing",
+        robot_name="base_hexarotor",
         controller_name="lee_position_control",
         args=None,
         device="cuda:0",

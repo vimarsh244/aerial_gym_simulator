@@ -11,7 +11,6 @@ from aerial_gym.config.sensor_config.lidar_config.base_lidar_config import (
 from aerial_gym.config.sensor_config.camera_config.base_normal_faceID_camera_config import (
     BaseNormalFaceIDCameraConfig,
 )
-from aerial_gym.config.sensor_config.lidar_config.osdome_64_config import OSDome_64_Config
 from aerial_gym.config.sensor_config.imu_config.base_imu_config import BaseImuConfig
 
 
@@ -48,6 +47,7 @@ class BaseHexaCfg:
             0.2,
             0.2,
         ]
+        
 
     class sensor_config:
         enable_camera = False
@@ -140,15 +140,17 @@ class BaseHexaCfg:
     class control_allocator_config:
         num_motors = 6
         force_application_level = "motor_link"
-        application_mask = [1 + 4 + i for i in range(6)]
+
+        application_mask = [7, 8, 9 , 10, 11, 12]
+
         motor_directions = [1, -1, 1, -1, 1, -1]
         allocation_matrix = [
-            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],  # fx
+            [0.0, 0.0, 0.0, 0.0, 1.0, 1.0],  # fx
             [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],  # fy
-            [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],  # fz
+            [1.0, 1.0, 1.0, 1.0, 0.0, 0.0],  # fz
             [-0.13, -0.13, 0.13, 0.13, 0.17, -0.17],  # tx
             [-0.13, 0.13, 0.13, -0.13, 0.0, 0.0],      # ty
-            [0.01, -0.01, 0.01, -0.01, 0.01, -0.01],   # tz
+            [-0.01, 0.01, -0.01, 0.01, 0.01, 0.01],   # tz
         ]
 
         class motor_model_config:
