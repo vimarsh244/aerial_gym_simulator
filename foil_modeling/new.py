@@ -38,7 +38,7 @@ def get_eqn(airfoil_name, no_deg=4):
         )
     )
 
-    # aero_analysis.airplane.draw()
+    aero_analysis.airplane.draw()
     
 
     results = aero_analysis.run()
@@ -82,19 +82,17 @@ def get_eqn(airfoil_name, no_deg=4):
     poly_drag_computed = drag_eq(velocity)
     
     # Plot both lift and drag on the same chart
-    # plt.plot(velocity, poly_lift_computed, 'b-', label="Lift Polynomial")
-    # plt.plot(velocity2, lift, 'bo', label="Lift Data")
-    # plt.plot(velocity, poly_drag_computed, 'r-', label="Drag Polynomial")
-    # plt.plot(velocity2, drag, 'ro', label="Drag Data")
+    plt.plot(velocity, poly_lift_computed, 'b-', label="Lift Polynomial")
+    plt.plot(velocity2, lift, 'bo', label="Lift Data")
+    plt.plot(velocity, poly_drag_computed, 'r-', label="Drag Polynomial")
+    plt.plot(velocity2, drag, 'ro', label="Drag Data")
     
-    # plt.legend()
-    # plt.xlabel("Velocity")
-    # plt.ylabel("Force")
-    # plt.title(("Lift and Drag vs Velocity", airfoil_name))
-    # plt.grid(True)
-    # plt.show()
-
-    ##IGNORE
+    plt.legend()
+    plt.xlabel("Velocity")
+    plt.ylabel("Force")
+    plt.title(("Lift and Drag vs Velocity", airfoil_name))
+    plt.grid(True)
+    plt.show()
     #plot the polynomials
     # plt.plot(velocity, forces_geometry[0], 'o')
     # plt.plot(velocity, fx_eq(velocity), '-')
@@ -105,8 +103,8 @@ def get_eqn(airfoil_name, no_deg=4):
     # plt.plot(velocity, forces_geometry[2], 'o')
     # plt.plot(velocity, fz_eq(velocity), '-')
     
-    # plt.show()
-    # 
+    plt.show()
+    
 
     print("Forces in body axes polynomials:", fx_eq, fy_eq, fz_eq)
     print("Lift polynomial:", lift_eq)

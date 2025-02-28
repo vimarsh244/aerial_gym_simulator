@@ -12,12 +12,17 @@ if __name__ == "__main__":
     args = get_args()
     env_manager = SimBuilder().build_env(
         sim_name="base_sim",
-        env_name="dynamic_env",
-        robot_name="lmf2",
-        controller_name="lmf2_position_control",
+        env_name="env_with_obstacles",
+        # robot_name="lmf2",
+        # controller_name="lmf2_position_control",
+        robot_name="base_hexa_wing",
+        controller_name="lee_position_control",
+
+
         args=None,
         device="cuda:0",
         num_envs=args.num_envs,
+        # num_envs=8,
         headless=args.headless,
         use_warp=args.use_warp,
     )

@@ -93,7 +93,11 @@ def get_eqn(wing_name, no_deg=4):
         )
     )
 
+    aero_analysis.airplane.draw()
+
     results = aero_analysis.run()
+
+    print(results)
 
     forces_geometry = results["F_g"]
     forces_body = results["F_b"]

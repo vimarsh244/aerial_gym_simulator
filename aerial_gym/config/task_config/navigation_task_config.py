@@ -5,11 +5,14 @@ from aerial_gym import AERIAL_GYM_DIRECTORY
 class task_config:
     seed = -1
     sim_name = "base_sim"
+    # env_name = "env_with_obstacles"
+    # robot_name = "lmf2"
+    # controller_name = "lmf2_velocity_control"
     env_name = "env_with_obstacles"
-    robot_name = "lmf2"
-    controller_name = "lmf2_velocity_control"
+    robot_name = "base_hexa_wing_with_camera"
+    controller_name = "lee_velocity_control"
     args = {}
-    num_envs = 1024
+    num_envs = 32
     use_warp = True
     headless = True
     device = "cuda:0"
@@ -29,7 +32,7 @@ class task_config:
     reward_parameters = {
         "pos_reward_magnitude": 5.0,
         "pos_reward_exponent": 1.0 / 3.5,
-        "very_close_to_goal_reward_magnitude": 5.0,
+        "very_close_to_goal_reward_magnitude": 10.0,
         "very_close_to_goal_reward_exponent": 2.0,
         "getting_closer_reward_multiplier": 10.0,
         "x_action_diff_penalty_magnitude": 0.8,

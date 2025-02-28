@@ -35,6 +35,11 @@ from aerial_gym.config.robot_config.base_quad_config import BaseQuadWithLidarCfg
 from aerial_gym.config.robot_config.base_quad_config import BaseQuadWithFaceIDNormalCameraCfg
 
 from aerial_gym.config.robot_config.base_hexa_config import BaseHexaCfg
+from aerial_gym.config.robot_config.base_hexa_config import BaseHexaWithImuCfg
+from aerial_gym.config.robot_config.base_hexa_config import BaseHexaWithCameraCfg
+from aerial_gym.config.robot_config.base_hexa_config import BaseHexaWithCameraImuCfg
+from aerial_gym.config.robot_config.base_hexa_config import BaseHexaWithLidarCfg
+from aerial_gym.config.robot_config.base_hexa_config import BaseHexaWithFaceIDNormalCameraCfg
 
 
 
@@ -49,6 +54,12 @@ robot_registry.register("morphy", Morphy, MorphyCfg)
 
 robot_registry.register("base_hexarotor", BaseMultirotor, BaseHexaCfg)
 robot_registry.register("base_hexa_wing", BaseMultirotorFW, BaseHexaCfg)
+# robot_registry.register("base_hexa_wing_with_imu", BaseMultirotorFW, BaseHexaWithImuCfg)
+robot_registry.register("base_hexa_wing_with_camera", BaseMultirotorFW, BaseHexaWithCameraCfg)
+# robot_registry.register("base_hexa_wing_with_camera_imu", BaseMultirotorFW, BaseHexaWithCameraImuCfg)
+# robot_registry.register("base_hexa_wing_with_lidar", BaseMultirotorFW, BaseHexaWithLidarCfg)
+# robot_registry.register("base_hexa_wing_with_faceid_normal_camera", BaseMultirotorFW, BaseHexaWithFaceIDNormalCameraCfg)
+# robot_registry.register("base_hexa_wing", BaseMultirotorFW, )
 
 robot_registry.register("snakey", BaseReconfigurable, SnakeyCfg)
 robot_registry.register("snakey5", BaseReconfigurable, Snakey5Cfg)

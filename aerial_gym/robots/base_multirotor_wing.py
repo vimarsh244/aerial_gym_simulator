@@ -57,8 +57,10 @@ class BaseMultirotorFW(BaseRobot):
         self.output_forces = None
         self.output_torques = None
 
-        self.wing_type = "PW75"
 
+        # added wing parameters, gets generated on the fly
+        # based on airfoil type
+        self.wing_type = "ag35"
         self.no_deg = 2
         self.get_eqn = get_eqn(self.wing_type, self.no_deg)
         self.fx_eqn = self.get_eqn[0]
@@ -355,3 +357,5 @@ class BaseMultirotorFW(BaseRobot):
         self.call_controller()
         self.simulate_drag()
         self.apply_disturbance()
+
+# class BaseMultirotorFW

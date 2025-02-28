@@ -6,9 +6,9 @@ class task_config:
     sim_name = "base_sim"
     env_name = "empty_env"
     robot_name = "base_hexa_wing"
-    controller_name = "lee_attitude_control"
+    controller_name = "lee_position_control"
     args = {}
-    num_envs = 16
+    num_envs = 64
     use_warp = True
     headless = False
     device = "cuda:0"
