@@ -135,6 +135,14 @@ env_configurations.register(
     },
 )
 
+env_configurations.register(
+    "velocity_setpoint_task",
+    {
+         "env_creator": lambda **kwargs: task_registry.make_task("velocity_setpoint_task", **kwargs),
+        "vecenv_type": "AERIAL-RLGPU",
+    }
+)
+
 vecenv.register(
     "AERIAL-RLGPU",
     lambda config_name, num_actors, **kwargs: AERIALRLGPUEnv(config_name, num_actors, **kwargs),
@@ -179,8 +187,8 @@ def get_args():
         {
             "name": "--file",
             "type": str,
-            "default": "ppo_aerial_quad.yaml",
-            "required": False,
+            "default": "ppo_aerial_hexa.yaml",
+            "required": True,
             "help": "path to config",
         },
         {
@@ -215,7 +223,7 @@ def get_args():
         {
             "name": "--task",
             "type": str,
-            "default": "navigation_task",
+            "default": "velocity_setpoint_task",
             "help": "Override task from config file if provided.",
         },
         {

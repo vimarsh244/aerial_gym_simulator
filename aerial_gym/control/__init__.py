@@ -37,6 +37,13 @@ from aerial_gym.config.controller_config.lmf2_controller_config import (
     control as lmf2_controller_config,
 )
 
+from aerial_gym.config.controller_config.hexa_42_controller_config import (
+    control as nn_42_controller_config,
+)
+
+# Add these imports at the top with other imports
+from aerial_gym.control.controllers.nn_42 import HexarotorNNController
+from aerial_gym.config.controller_config.hexa_42_controller_config import control as hexarotor_nn_controller_config
 
 from aerial_gym.registry.controller_registry import controller_registry
 
@@ -106,4 +113,9 @@ controller_registry.register_controller(
 
 controller_registry.register_controller(
     "lmf2_acceleration_control", LeeAccelerationController, lmf2_controller_config
+)
+
+
+controller_registry.register_controller(
+    "nn_42_controller", HexarotorNNController, hexarotor_nn_controller_config
 )

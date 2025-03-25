@@ -271,4 +271,33 @@
     <origin xyz="0.0 -0.17 0.0" rpy="0 0 0"/>
   </joint>
 
+
+  <link name="wing">
+    <visual>
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.4 0.08 0.005"/>
+      </geometry>
+      <material name="Gray">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.4 0.08 0.005"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.005"/>
+      <inertia ixx="0.00002" ixy="0" ixz="0" iyx="0" iyy="0.00002" iyz="0" izx="0" izy="0" izz="0.00004"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_wing" type="fixed">
+    <parent link="base_link"/>
+    <child link="wing"/>
+    <origin xyz="0 0 0" rpy="0 0 1.5708"/>
+  </joint>
+
 </robot>

@@ -88,3 +88,13 @@ task_registry.register_task(
 
 from aerial_gym.task.custom_task.pointAB_navigate_task import PointABNavigateTask
 task_registry.register_task("point_nav_task", PointABNavigateTask, point_nav_task_config)
+
+from aerial_gym.task.velocity_setpoint_task.velocity_setpoint_task import (
+    VelocitySetpointTask,
+)
+from aerial_gym.config.task_config.velocity_setpoint_task_config import (
+    task_config as velocity_setpoint_task_config,
+)
+task_registry.register_task(
+    "velocity_setpoint_task", VelocitySetpointTask, velocity_setpoint_task_config
+)
