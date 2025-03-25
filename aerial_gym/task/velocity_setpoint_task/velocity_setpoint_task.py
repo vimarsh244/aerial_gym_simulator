@@ -129,7 +129,10 @@ class VelocitySetpointTask(BaseTask):
     def reset(self):
         # Sample random velocity targets
         # self.target_velocity[:] = 20.0 * torch.rand_like(self.target_velocity) - 10.0  # -10 to 10 m/s
-        self.target_velocity[:] = 10.0 * torch.ones_like(self.target_velocity) # 0 to 25 m/s
+        # self.target_velocity[:] = 4.0 * torch.ones_like(self.target_velocity) - 2.0 # 0 to 25 m/s
+        self.target_velocity[:, 1] = 0.0  # No vertical velocity
+        self.target_velocity[:, 0] = 2.0*  torch.rand_like(self.target_velocity)[:,  0]  # No vertical velocity
+        self.target_velocity[:, 2] = 4.0 * torch.rand_like(self.target_velocity)[:, 2] - 2.0
         self.infos = {}
         self.sim_env.reset()
         return self.get_return_tuple()
@@ -137,8 +140,11 @@ class VelocitySetpointTask(BaseTask):
     def reset_idx(self, env_ids):
         # Sample random velocity targets for reset environments
         # self.target_velocity[env_ids] = 20.0 * torch.rand_like(self.target_velocity[env_ids]) - 10.0
-        self.target_velocity[env_ids] = 10.0 * torch.ones_like(self.target_velocity[env_ids])
-        self.infos = {}
+        # self.target_velocity[env_ids] = 4.0 * torch.ones_like(self.target_velocity[env_ids]) - 2.0
+        self.target_velocity[env_ids, 1] = 0.0
+        self.target_velocity[env_ids, 0] = 2.0*  torch.rand_like(self.target_velocity[env_ids])[:, 0]  # No vertical velocity
+        self.target_velocity[env_ids, 2] = 4.0 * torch.rand_like(self.target_velocity[env_ids])[:, 2] - 2.0
+        self.infos = {} 
         self.sim_env.reset_idx(env_ids)
         return
 
@@ -226,24 +232,25 @@ class VelocitySetpointTask(BaseTask):
         
         # Combine rewards
         total_reward = (
-            vel_reward + vel_reward * (up_reward + ang_vel_reward) + altitude_penalty + previous_action_penalty + absolute_action_penalty
+            # vel_reward + vel_reward * (up_reward + ang_vel_reward) + altitude_penalty + previous_action_penalty + absolute_action_penalty
+            vel_reward + vel_reward *(up_reward+ ang_vel_reward)
         )
         
         # Define crashes based on altitude or excessive velocity error
         crashes = torch.zeros_like(vel_reward)
-        crashes[:] = torch.where(robot_position[:, 2] < 0.2, 
-                               torch.ones_like(crashes), 
-                               crashes)
+        # crashes[:] = torch.where(robot_position[:, 2] < 0.2, 
+        #                        torch.ones_like(crashes), 
+        #                        crashes)
         crashes[:] = torch.where(vel_error_magnitude > 20.0, 
                                torch.ones_like(crashes), 
                                crashes)
         
         # Apply crash penalty
-        total_reward[:] = torch.where(
-            crashes > 0.0, 
-            -20 * torch.ones_like(total_reward), 
-            total_reward
-        )
+        # total_reward[:] = torch.where(
+        #     crashes > 0.0, 
+        #     -20 * torch.ones_like(total_reward), 
+        #     total_reward
+        # )
         
         return total_reward, crashes
 
